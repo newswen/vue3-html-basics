@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>购物车案例</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            margin: 0 2px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <h1>购物车</h1>
+    <table>
+        <thead>
+        <tr>
+            <!--增加一个复选框-->
+            <th>
+                <input type="checkbox" v-model="selectAll" @change="selectAllChange">
+            </th>
+            <th>商品</th>
+            <th>单价</th>
+            <th>库存</th>
+            <th>数量</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(item, index) in cart" :key="index">
+            <!--增加一个复选框-->
+            <td>
+                <input type="checkbox" v-model="checkList" :value="item" @change="selectChange">
+            </td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.price }}</td>
+            <td>{{ item.stock }}</td>
+            <td>
+                <!-- 当disabled中的布尔值符合某一个类型时就会进行禁用处理-->
+                <button @click="decreaseQuantity(index)" :disabled="item.quantity <= 1">-</button>
+                <span>{{ item.quantity }}</span> <!-- 用文本显示数量 -->
+                <button @click="increaseQuantity(index)" :disabled="item.quantity >= item.stock">+</button>
+            </td>
+            <td>
+                <button @click="removeItem(index)">删除</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>总价: {{ totalPrice }}</p>
+</div>
+<script type="module">
+    import {createApp, ref, computed, reactive} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+        setup() {
+            let selectAll = ref(false);
+            let checkList = ref([]);
+            let cart = ref([
+                {name: '商品1', price: 10, stock: 10, quantity: 1},
+                {name: '商品2', price: 20, stock: 5, quantity: 1},
+                {name: '商品3', price: 15, stock: 8, quantity: 1}
+            ]);
+            // 全选复选框逻辑
+            let selectAllChange = () => {
+                if (selectAll.value) {
+                    // 注意这部分cart使用也要使用value进行设置
+                    //... 是 JavaScript 中的 扩展运算符（spread operator），用来把一个数组的元素展开成一个一个的值
+                    checkList.value = [...cart.value];
+                } else {
+                    // 取消全选
+                    checkList.value = [];
+                }
+            }
+            // 选择单个时判断全选复选框是否勾选
+            let selectChange = () => {
+                if (checkList.value.length === cart.value.length) {
+                    selectAll.value = true;
+                } else {
+                    selectAll.value = false;
+                }
+            }
+
+            let increaseQuantity = (index) => {
+                if (cart.value[index].quantity < cart.value[index].stock) {
+                    cart.value[index].quantity++;
+                }
+            }
+
+            let decreaseQuantity = (index) => {
+                if (cart.value[index].quantity > 1) {
+                    cart.value[index].quantity--;
+                }
+            }
+
+            // 删除商品
+            let removeItem = (index) => {
+                cart.value.splice(index, 1);
+                checkList.value = checkList.value.filter(item => item !== cart.value[index]); // 删除商品后同步更新选中列表
+            }
+
+            // 计算总价：只计算勾选的商品
+            let totalPrice = computed(() => {
+                return checkList.value.reduce((total, item) => total + item.price * item.quantity, 0);
+            });
+
+            return {
+                cart,
+                increaseQuantity,
+                decreaseQuantity,
+                removeItem,
+                totalPrice,
+                selectAllChange,
+                selectAll,
+                checkList,
+                selectChange
+            }
+        },
+    }).mount('#app')
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>绑定事件v-on和按键修饰符</title>
+</head>
+<body>
+<div id="app">
+    <p>{{msg}}</p>
+    <p>{{web.age}}</p>
+    <button @click="edit">修改</button>
+    <br>
+    请按下放开enter:<input @keyup.enter="edit"><br>
+    请按下enter:<input @keydown.enter="edit"><br>
+    <!--    tab的特别之处就是点击tab时，焦点会到下一个文本框，就会导致失效-->
+    请按下tab:<input @keydown.tab="edit"><br>
+    请按下clt+enter:<input @keydown.ctrl.enter="edit">
+
+
+</div>
+<script type="module">
+    import {createApp, ref} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+        setup() {
+            let web = ref({
+                name: 'yw',
+                age: 24
+            });
+            let edit = () => {
+                web.value.age++;  // 需要加 .value
+            }
+            return {
+                msg: 'success',
+                web,
+                edit
+            }
+        },
+    }).mount('#app')
+</script>
+
+
+</body>
+</html>

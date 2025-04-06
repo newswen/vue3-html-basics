@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    爱好
+    <select v-model="selectInterst">
+        <option value="">请选择</option>
+        <option value="编程">编程</option>
+        <option value="画画">画画</option>
+        <option value="挖鼻屎">挖鼻屎</option>
+    </select><br>
+    年
+    <select v-model="selectYear">
+        <option value="">请选择</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+    </select><br>
+    月
+    <select v-model="selectMonth">
+        <option value="">请选择</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>
+
+</div>
+<script type="module">
+    import {createApp, ref, watchEffect} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+        setup() {
+            let selectInterst = ref('');
+            let selectYear = ref('');
+            let selectMonth = ref('');
+            //开启自动监听器
+            watchEffect(() => {
+                console.log('监听开始');
+                if (selectInterst.value === '编程') {
+                    console.log('监听到爱好变化', selectInterst.value);
+                }
+                console.log('监听结束');
+            })
+            return {
+                selectInterst,
+                selectYear,
+                selectMonth
+            }
+        },
+    }).mount('#app')
+</script>
+</body>
+</html>

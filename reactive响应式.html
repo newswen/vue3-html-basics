@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <!-- 注意通过mount()挂载到这个app的DOM上时，里面的子元素可以读取到返回的响应数据 -->
+    <div id="app">
+      <p>{{obj}}</p>
+      <p>{{obj.name}}</p>
+      <p>{{obj.age}}</p>
+    </div>
+
+    <script>
+      const { createApp, ref } = Vue;
+      createApp({
+        setup() {
+          const obj = ref({
+            name: "yw",
+            age: 24,
+          });
+          // 使用时间函数设置定期时间，改变年龄,2s之后
+          setTimeout(() => {
+            obj.age = obj.age + 1;
+          }, 2000);
+          return {
+            obj,
+          };
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

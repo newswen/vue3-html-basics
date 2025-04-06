@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: #e22c2c;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        button {
+            margin: 20px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="exchange('这是一个弹窗消息')">v-if: 切换弹窗显示和隐藏，点击按钮</button>
+    <br>
+    测试动态绑定：<input v-bind:value="mes"><br>
+    简化版本：<input :value="mes"><br>
+    <!-- 弹窗 -->
+    <!--popup:结果为true就直接设置为对应样式-->
+    <div :class="{popup:popupCheck}" v-if="seen">
+        <span>{{mes}}</span>
+    </div>
+</div>
+<script type="module">
+    import {createApp, ref} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+        setup() {
+            let seen = ref(false);
+            let mes = ref('');
+            // 设置css是否需要被启用
+            let popupCheck = ref(false);
+            let exchange = (message) => {
+                seen.value = !seen.value;
+                mes.value = message;
+            }
+            return {
+                seen,
+                exchange,
+                mes,
+                popupCheck
+            }
+        },
+    }).mount('#app')
+</script>
+</body>
+</html>

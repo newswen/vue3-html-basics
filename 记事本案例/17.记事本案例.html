@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <!--这部分想着使用:value="msg"进行绑定，想着也能实现-->
+    <!--结果发现会导致add的时候，输入框的数据不能同步到代码处，就体现出了双向绑定数据的作用了-->
+    <input type="text" v-model="msg">
+    <button @click="add">添加</button>
+    <ul>
+        <li v-for="(item, index) in arr">
+            {{item}}
+            <button @click="del(index)">删除</button>
+        </li>
+    </ul>
+    <!--注意这部分对响应数组返回的地方直接使用.length就可以-->
+    <!--而不是使用.value.length-->
+    <p>{{arr.length}}</p>
+    <button @click="clear">清空</button>
+</div>
+<script type="module">
+    import {createApp, ref,reactive} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+        setup() {
+            let msg = ref('');
+            // 数组的设计直接使用reactive，避免.value的额外使用
+            let arr = reactive([]);
+            let add = () => {
+                arr.push(msg.value);
+                console.log(arr)
+            }
+            let del = (index) => {
+                arr.splice(index, 1);
+            }
+            // 采用splice方法进行清空数组，而不是直接arr = [];无法实现，
+            let clear = () => {
+                arr.splice(0, arr.length); // 清空数组
+            }
+            return {
+                msg,
+                arr,
+                add,
+                del,
+                clear
+            }
+        },
+    }).mount('#app')
+</script>
+</body>
+</html>

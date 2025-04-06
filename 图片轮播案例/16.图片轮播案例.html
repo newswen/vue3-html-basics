@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <h1>当前图片位置: {{imgIndex}}</h1>
+    <img :src="`${imgIndex}-img.png`" alt="yw" style="height: 300px">
+    <button @click="pre">上一张</button>
+    <button @click="next">下一张</button>
+</div>
+<script type="module">
+    import {createApp, ref} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+        setup() {
+            let imgIndex = ref(1);
+            let pre = () => {
+                if (imgIndex.value > 1) {
+                    imgIndex.value--;
+                }
+            }
+            let next = () => {
+                if (imgIndex.value < 3) {
+                    imgIndex.value++;
+                }
+            }
+            return {
+                imgIndex,
+                pre,
+                next
+            }
+        },
+    }).mount('#app')
+</script>
+</body>
+</html>

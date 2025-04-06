@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <!-- {{}}:差值表达式，可以将vue中定义的数据渲染到页面上 -->
+    <div id="app">{{ msg }}</div>
+
+    <script>
+      // 创建一个Vue应用
+      Vue.createApp({
+        // 通过setUp()设置响应数据和方法
+        setup() {
+          return {
+            msg: "success",
+          };
+        },
+        // mount挂载到对应DOM上
+      }).mount("#app");
+    </script>
+  </body>
+</html>

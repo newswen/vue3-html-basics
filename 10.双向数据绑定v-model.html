@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <p>v-model双向数据绑定选中数据：{{msg}}</p>
+    <input type="text" v-model="msg">
+    <input type="radio" value="a" v-model="msg">
+    <input type="radio" value="b" v-model="msg">
+    <p>v-model 双向数据绑定选中数据数组：{{array}}</p>
+    <input type="checkbox" value="a" v-model="array">
+    <input type="checkbox" value="b" v-model="array">
+    <p>v-model 下拉框选中数据：{{select}}</p>
+    <select v-model="select">
+        <option value="">请选择</option>
+        <option value="a">a</option>
+        <option value="b">b</option>
+    </select><br>
+    <select multiple v-model="selected">
+        <option value="a">选项 A</option>
+        <option value="b">选项 B</option>
+        <option value="c">选项 C</option>
+    </select>
+    <p>选中的值是: {{ selected }}</p>
+
+</div>
+<script type="module">
+    import {createApp, ref} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+        setup() {
+            let msg = ref(null);
+            let array = ref([]);
+            let select = ref();
+            let selected = ref([]);
+            return {
+                msg,
+                array,
+                select,
+                selected
+            }
+        },
+    }).mount('#app')
+</script>
+</body>
+</html>

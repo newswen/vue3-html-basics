@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    爱好
+    <select v-model="selectInterst">
+        <option value="">请选择</option>
+        <option value="编程">编程</option>
+        <option value="画画">画画</option>
+        <option value="挖鼻屎">挖鼻屎</option>
+    </select><br>
+    年
+    <select v-model="selectYear">
+        <option value="">请选择</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+    </select><br>
+    月
+    <select v-model="selectMonth">
+        <option value="">请选择</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>
+
+</div>
+<script type="module">
+    import {createApp, ref,watch} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+        setup() {
+            let selectInterst = ref('');
+            let selectYear = ref('');
+            let selectMonth = ref('');
+            //开启监听器
+            watch([selectInterst, selectYear, selectMonth], (newValue, oldValue) => {
+                // 这里是会对[selectInterst, selectYear, selectMonth]这3个进行监听
+                //newValue, oldValue是变化的旧新值。不过这个会根据设置的参数去打印
+                // 比如这里是一个数组，旧新值就是对应到数组类型
+                console.log(newValue, oldValue);
+            })
+            return {
+                selectInterst,
+                selectYear,
+                selectMonth
+            }
+        },
+    }).mount('#app')
+</script>
+</body>
+</html>

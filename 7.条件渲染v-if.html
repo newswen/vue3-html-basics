@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        button {
+            margin: 20px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <button @click="exchange('这是一个弹窗消息')">v-if: 切换弹窗显示和隐藏，点击按钮</button>
+    <h1 v-if="num < 10">v-if: 当num小于10时，显示此段文字，num: {{num}}</h1>
+    <h2 v-else-if="num >= 10&& num < 20">v-else-if: 当num大于等于10、小于20时，显示此段文字，num: {{num}}</h2>
+    <h3 v-else>v-else: 当num大于等于20时，显示此段文字，num: {{num}}</h3>
+    <!-- 弹窗 -->
+    <div class="popup" v-if="seen">
+        <span>{{mes}}</span>
+    </div>
+</div>
+<script type="module">
+    import {createApp, ref} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+
+    createApp({
+        setup() {
+            let seen = ref(false);
+            let mes = ref('');
+            let num = ref(10);
+            let exchange = (message) => {
+                seen.value = !seen.value;
+                mes.value = message;
+            }
+            return {
+                seen,
+                exchange,
+                mes,
+                num
+            }
+        },
+    }).mount('#app')
+</script>
+</body>
+</html>
